@@ -1,2 +1,58 @@
 # Kaggle-COVID-tweet
  
+This is a solution for [Kaggle NLP project](https://www.kaggle.com/datatattle/covid-19-nlp-text-classification). The task is to classify sentiments in given tweets.
+
+Twitter is a place to express thoughts and ideas and spread news and information, thus makes it a great source to track trends worldwide. Through the collected tweets, we can evaluate people's attitude toward Covid and pandemic through the trending keywords and tags through time. The estimator can be useful for identifying inappropriate tweets and stop toxic propaganda or evaluating strategies to promote social distancing using trend words.
+
+Data has following columns:
+
+|Column |Notes |
+|:------|:-------|
+UserName | User ID
+ScreenName| User display name
+Location | User location
+TweetAt | Date
+OriginalTweet | Tweets
+Sentiment | Extremely negative, Negative, Neutral, Positive, Extremely positive
+
+## Approach
+Approach the problem in two ways:
+1. Covid-tweets-sentiment_method1.ipynb approach the problem using one classifier and classify five sentiments.
+2. Covid-tweets-sentiment_method2.ipynb approach the problem using three classifiers:
+    - Sentiment classifier: classifies 3 classes: Positive (including Extremely Positive and Positive), Neutral, and Negative (Extremely Negative and Negative)
+    - Extremely Positive classifier: identifies Extremely Positive from Positive, thus the model is binary classifier determines if input is extremely positive or not
+    - Extremely Negative classifier: identifies Extremely Negative from Negative, thus the model is binary classifier determines if input is extremely negative or not
+    
+## Text Cleaning
+Clean both the text and location through following step:
+1. Remove links: remove links starting with http
+2. Remove accounts: remove mentioned accounts except the most frequently mentioned accounts such as @realDonaldTrump, @Tesco, @BorisJohnson, etc.
+3. Remove hashtags: remove hashtags including #covid* or #corona* because those  except the most popular hashtags
+4. Remove special characters: special characters don't help identifying sentiment
+5. Remove non-English characters
+6. Remove stopwords: remove common words that don't help identifying sentiment
+7. Stemming: replace word with its stem
+8. Lemmatization: replace word with its lemma
+9. Combine location and tweet content in one sentence
+10. Lowercase
+
+Here's what it's like before and after text cleaning:
+
+|Original |Cleaned |
+|:------|:-------|
+@MeNyrbie @Phil_Gahan @Chrisitv https://t.co/iFz9FAn2Pa and https://t.co/xX6ghGFzCC and https://t.co/I2NlzdxNo8 | gb
+advice Talk to your neighbours family to exchange phone numbers create contact list with phone numbers of neighbours schools employer chemist GP set up online shopping accounts if poss adequate supplies of regular meds but not over order | gb advice talk neighbours family exchange phone numbers create contact list phone numbers neighbours schools employer chemist gp set online store accounts poss adequate supplies regular meds order
+Coronavirus Australia: Woolworths to give elderly, disabled dedicated shopping hours amid COVID-19 outbreak https://t.co/bInCA9Vp8P | australia woolworths give elderly disabled dedicated store hour amid outbreak
+My food stock is not the only one which is empty...\r\r\n\r\r\nPLEASE, don't panic, THERE WILL BE ENOUGH FOOD FOR EVERYONE if you do not take more than you need. \r\r\nStay calm, stay safe.\r\r\n\r\r\n#COVID19france #COVID_19 #COVID19 #coronavirus #confinement #Confinementotal #ConfinementGeneral https://t.co/zrlG0Z520j | food stock empty please panic enough food everyone take need stay calm stay safe
+Me, ready to go at supermarket during the #COVID19 outbreak.\r\r\n\r\r\nNot because I'm paranoid, but because my food stock is litteraly empty. The #coronavirus is a serious thing, but please, don't panic. It causes shortage...\r\r\n\r\r\n#CoronavirusFrance #restezchezvous #StayAtHome #confinement https://t.co/usmuaLq72n | ready go market outbreak paranoid food stock litteraly empty serious thing please panic causes shortage
+As news of the regionÂs first confirmed COVID-19 case came out of Sullivan County last week, people flocked to area stores to purchase cleaning supplies, hand sanitizer, food, toilet paper and other goods, @Tim_Dodson reports https://t.co/cfXch7a2lU | news first confirmed case came sullivan county last week people flocked area store purchase cleaning supplies hand sanitizer food toiletpaper toiletpaper goods reports
+
+## Modeling
+Three models to train, tune, and evaluate:
+1. Input -> Embedded -> Conv1D -> GlobalAveragePooling1D -> Dense -> Output
+2. Input -> Embedded -> Bidirectional LSTM -> Dropout -> Dense -> Output
+3. Input -> Embedded -> Bidirectional GRU -> Dropout -> Dense -> Output
+
+## Perfornce:
+- With one classifier: 73% accuracy
+- With multiple classifiers: 66% accuracy
