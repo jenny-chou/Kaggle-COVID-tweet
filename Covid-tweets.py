@@ -149,14 +149,13 @@ class Data:
         self.train = train
         self.test = test
         self.encoder = None
-        self.top_accts, self.top_hashtags = self._popular_tags(train)
+        self.top_accts, self.top_hashtags = self._popular_tags(train)  
         self.stemming = Common.stemming_dict()
         self.lemmatization = Common.lemmatization_dict()
         self.stopwords = Common.stopword_list()
-        self.loc_dict = Common.create_loc_dict()
-                
-    @staticmethod
-    def _popular_tags(df, num_accts=10, num_hashtags=30):
+        self.loc_dict = Common.create_loc_dict()                 
+
+    def _popular_tags(self, df, num_accts=10, num_hashtags=30):
         """Most mentioned accounts and popular hashtags in training set.
 
         Args:
@@ -171,26 +170,24 @@ class Data:
         """
         accts = []
         hashtags = []
+        
         for tweet in df.index.values:
-            acct = re.findall(r'@\w+', df.loc[tweet, "OriginalTweet"])
-            accts.append(acct)
-            hashtag = re.findall(r'#\w+', df.loc[tweet, "OriginalTweet"])
-            hashtags.append(hashtag)
+            accts += re.findall(r'@\w+', df.loc[tweet, "OriginalTweet"])
+            hashtags += re.findall(r'#\w+', df.loc[tweet, "OriginalTweet"])
         
         sort = pd.DataFrame(accts).value_counts(ascending=False)
-        top_accts = [tag[0] for tag in sort.index.values[:num_accts]]
+        top_accts = [tag[0] for tag in sort.index[:num_accts]]
         
         sort = pd.DataFrame(hashtags).value_counts(ascending=False)
         # Exclude #covid* and #corova* because those hashtags were used 
         # to collect data, hence they're in most of the tweets.
-        top_hashtags = [tag[0] for tag in sort.index.values[:num_hashtags] \
-                        if tag[0].lower() != "covid" and 
-                        tag[0].lower() != "corona"]
-            
+        top_hashtags = [tag[0] for tag in sort.index[:num_hashtags] \
+                        if "covid" not in tag[0].lower() and 
+                        "corona" not in tag[0].lower()]
+        
         return top_accts, top_hashtags
 
-    @staticmethod
-    def _remove_link(text):
+    def _remove_link(self, text):
         """Remove link from input text.
 
         Args:
@@ -243,8 +240,7 @@ class Data:
             
         return text
     
-    @staticmethod
-    def _remove_special_char(text):
+    def _remove_special_char(self, text):
         """Remove special characters and numbers.
 
         Args:
@@ -261,8 +257,7 @@ class Data:
             
         return text
     
-    @staticmethod
-    def _remove_non_english(text):
+    def _remove_non_english(self, text):
         """Remove non-English characters.
 
         Args:
