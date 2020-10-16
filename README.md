@@ -53,6 +53,17 @@ Three models to train, tune, and evaluate:
 2. Input -> Embedded -> Bidirectional LSTM -> Dropout -> Dense -> Output
 3. Input -> Embedded -> Bidirectional GRU -> Dropout -> Dense -> Output
 
-## Perfornce:
+## Performance:
 - With one classifier: 73% accuracy
 - With multiple classifiers: 66% accuracy
+
+|Original Tweet | Cleaned Tweet | True Sentiment | Misclassified |
+|:------|:-------|:-------|:--------|
+| @DrTedros "We canÂt stop #COVID19 without protecting #healthworkers.Prices of surgical masks have increased six-fold, N95 respirators have more than trebled &amp; gowns cost twice as much"-@DrTedros #coronavirus | us stop without protecting prices surgical mask increase six fold respirators trebled amp gowns cost twice many | Neutral | Negative|
+|HI TWITTER! I am a pharmacist. I sell hand sanitizer for a living! Or I do when any exists. Like masks, it is sold the fuck out everywhere. SHOULD YOU BE WORRIED? No. Use soap. SHOULD YOU VISIT TWENTY PHARMACIES LOOKING FOR THE LAST BOTTLE? No. Pharmacies are full of sick people.| hi twitter pharmacist sell hand sanitizer living exists like mask sold fuck everywhere worried use soap visit twenty pharmacies looking last bottle pharmacies full sick people|Extremely Negative|Negative|
+|For those of you that think credit/debit is just as good as #bitcoin when it comes to combating #coronavirus, keep in mind that this is not a "contactless transaction."  How many people at your grocery store or gas station touch this keypad every day? https://t.co/WVq8bb9OlS|us think credit debit good comes combating keep mind contactless transaction many people goods store gas station touch keypad day|Extremely Positive|Positive
+|Fellow Uni instructors! COVID-19 f2f class cancelations are  inconvenient! But remember you're salaried employees. Maybe call/email HR or your union &amp; demand to know how hourly workers (clerical, food-service, custodial, etc) will be  compensated during campus closures?|us fellow uni instructors class cancelations inconvenient remember salaried worker maybe call email hr union amp demand know hourly worker clerical food service custodial compensated campus closures|Negative|Positive|
+Ok if #COVID2019 is nothing to panic about why is Italy imposing the biggest restrictions on the civilian population since WW2? How will the supermarkets be able to provide food if all the workers are told to stay at home? Same with any other Bussiness.|gb ok nothing panic italy imposing biggest restrictions civilian population since ww market able provide food worker told stay home bussiness|Positive|Negative
+
+## Conclusion
+When reviewing the data set, some tweets' label are quite questionable. And some of the predicted sentiments actually makes more sense than the true label. For improvement, consider re-evaluate the data set labels and adjust text cleaning technique accordingly. In addition, clarifying keywords or criteria that make a tweet "extremely" positive or negative helps us adjust our model to be more sensitive.
