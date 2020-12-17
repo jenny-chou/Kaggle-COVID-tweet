@@ -1,3 +1,6 @@
+<img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/404F/production/_112236461_gettyimages-1209519827.jpg">
+
+
 # Kaggle-COVID-tweet
  
 This is a solution for [Kaggle NLP project](https://www.kaggle.com/datatattle/covid-19-nlp-text-classification). The task is to classify sentiments in given tweets.
